@@ -24,6 +24,10 @@ With AO agent - `Flux.usingWhen` producer is created after `doOnConsumer` is cal
 
 Unable to reproduce with pure reactor code. 
 
+## APM Agent version
+- 6.22.0 and before - works - no support for reactor.io
+- 6.23.0+ - throws an exception
+
 ## Test env
 All behaves the same
 ### Java version
