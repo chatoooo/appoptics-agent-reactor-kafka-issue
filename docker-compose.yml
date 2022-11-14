@@ -18,7 +18,7 @@ services:
       - "9093:9093"
     environment:
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka1:9092,EXTERNAL://kafka1:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://localhost:9092,EXTERNAL://localhost:9093
       - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
       - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -26,25 +26,3 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
-
-  reproducer:
-    depends_on:
-      - kafka1
-    image: "ao-issue-reproducer"
-    container_name: ao-issue-reproducer
-    ports:
-      - "8030:8000" # debug
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    environment:
-      KAFKA_HOST: "kafka1:9093"
-      APPOPTICS_SERVICE_KEY: ***REMOVED***
-    deploy:
-      restart_policy:
-        condition: on-failure
-        max_attempts: 10
-      resources:
-        reservations:
-          memory: 1G
-        limits:
-          memory: 1G
